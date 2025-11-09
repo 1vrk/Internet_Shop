@@ -1,5 +1,6 @@
 from pydantic import BaseModel, EmailStr, Field 
 from typing import Optional, Annotated
+from .user_profile import UserProfile
 
 class UserBase(BaseModel):
     username: str
@@ -11,6 +12,10 @@ class UserCreate(UserBase):
 class User(UserBase):
     id: int
     is_admin: bool
-
+    profile: Optional[UserProfile] = None
     class Config:
         from_attributes  = True 
+
+
+class UserUpdate(BaseModel):
+    email: Optional[EmailStr] = None

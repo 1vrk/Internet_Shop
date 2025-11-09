@@ -3,6 +3,8 @@ from typing import Optional
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 from app.core.config import settings
+from app import schemas
+
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -24,3 +26,14 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
         to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM
     )
     return encoded_jwt
+
+def decode_access_token(token: str, credentials_exception):
+    try:
+        payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
+        username: str = payload.get("sub")
+        if username is None:
+            raise credentials_exception
+        token_data = schemas.TokenData(username=username)
+    except JWTError:
+        raise credentials_exception
+    return token_data
