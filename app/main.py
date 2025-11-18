@@ -1,5 +1,8 @@
 from fastapi import FastAPI
 from app.api.api import api_router
+from app.db.init_db import init_db
+
+init_db()
 
 app = FastAPI(
     title="PokeShop API",
