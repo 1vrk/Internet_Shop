@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PokéShop - Мой профиль</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo">PokéShop</a>
+            <nav> </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <h1>Личный кабинет</h1>
+
+        <section class="profile-section">
+            <h2>Личные данные</h2>
+            <form id="profile-form">
+            </form>
+        </section>
+
+        <section class="profile-section">
+            <h2>Мои адреса</h2>
+            <div id="addresses-container">
+            </div>
+            <div id="add-address-form-container">
+            <h3>Добавить новый адрес</h3>
+            <form id="add-address-form" class="address-form">
+                <input type="text" name="street" placeholder="Улица, дом, квартира" required>
+                <input type="text" name="city" placeholder="Город" required>
+                <input type="text" name="state" placeholder="Область / Регион (необязательно)"> 
+                <input type="text" name="postal_code" placeholder="Почтовый индекс" required>
+                <input type="text" name="country" placeholder="Страна" required>
+                <button type="submit">Добавить адрес</button>
+            </form>
+            </div>
+        </section>
+
+        <section class="profile-section">
+            <h2>История заказов</h2>
+            <div id="orders-container">
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 PokéShop. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

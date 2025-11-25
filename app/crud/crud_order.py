@@ -64,6 +64,6 @@ def has_user_purchased_product(db: Session, user_id: int, product_id: int) -> bo
     order_item = db.query(models.OrderItem).join(models.Order).filter(
         models.Order.user_id == user_id,
         models.OrderItem.product_id == product_id,
-        models.Order.status == 'delivered'
+        models.Order.status == 'pending'
     ).first() 
     return order_item is not None

@@ -87,10 +87,13 @@ def create_product_review(
     #чекаем, покупал ли текущий пользователь этот товар, тут это мэйн вещь 
     if not crud.crud_order.has_user_purchased_product(db, user_id=current_user.id, product_id=product_id):
         raise HTTPException(
-            status_code=403, # 403 Forbidden - правильный статус для этой ситуации
+            status_code=403, 
             detail="You can only review products you have purchased"
         )
-
+    
+    existing_review = crud.crud_review.get_review_by_user_and_product(db, user_id=current_user.id, product_id=product_id)
+    if existing_review:
+        raise HTTPException(status_code=400, detail="You have already reviewed this product")
     return crud.crud_review.create_review(
         db, review=review_in, product_id=product_id, user_id=current_user.id
     )

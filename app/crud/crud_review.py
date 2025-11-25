@@ -18,9 +18,26 @@ def create_review(
     db.refresh(db_review)
     return db_review
 
+def update_review(
+    db: Session, db_review: models.Review, review_in: schemas.ReviewCreate
+) -> models.Review:
+    db_review.rating = review_in.rating
+    db_review.comment = review_in.comment
+    db.add(db_review)
+    db.commit()
+    db.refresh(db_review)
+    return db_review
+
 def get_review_by_id(db: Session, review_id: int) -> models.Review | None:
     return db.query(models.Review).filter(models.Review.id == review_id).first()
 
 def delete_review(db: Session, db_review: models.Review):
     db.delete(db_review)
     db.commit()
+
+
+def get_review_by_user_and_product(db: Session, user_id: int, product_id: int) -> models.Review | None:
+    return db.query(models.Review).filter(
+        models.Review.user_id == user_id,
+        models.Review.product_id == product_id
+    ).first()

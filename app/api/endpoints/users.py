@@ -36,3 +36,23 @@ def update_current_user_profile(
     return crud.crud_user_profile.update_profile(
         db, db_profile=current_user.profile, profile_in=profile_in
     )
+
+@router.get("/me/can-review/{product_id}")
+def can_user_review(
+    product_id: int,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(dependencies.get_current_user)
+):
+    purchased = crud.crud_order.has_user_purchased_product(
+        db=db, user_id=current_user.id, product_id=product_id
+    )
+
+    existing_review = crud.crud_review.get_review_by_user_and_product(
+        db=db, user_id=current_user.id, product_id=product_id
+    )
+
+    already_reviewed = existing_review is not None
+
+    can_review = purchased and not already_reviewed
+    
+    return {"can_review": can_review}
