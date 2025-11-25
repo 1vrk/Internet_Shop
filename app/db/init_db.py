@@ -13,4 +13,4 @@ from app.models.review import Review
 def init_db():
     print("хз не не чекал")
     Base.metadata.create_all(bind=engine)
-    print("Таблицы успешно созданы (или уже существовали)")
+    print("таблицы созданы или уже существовали")

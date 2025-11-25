@@ -1,6 +1,6 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Body
 from sqlalchemy.orm import Session
-from typing import List
+from typing import List, Any
 
 from app import schemas, crud, models
 from app.api import dependencies
@@ -36,10 +36,27 @@ def read_all_users(
 ):
     return crud.crud_user.get_all_users(db)
 
+@router.put("/users/{user_id}/toggle-admin", response_model=schemas.User)
+def toggle_user_admin_status(
+        user_id: int,
+        is_admin: bool = Body(..., embed=True),
+        db: Session = Depends(get_db),
+        current_admin: models.User = Depends(dependencies.get_current_admin_user)
+    ):
 
-# ... (в конце файла)
+    if current_admin.id == user_id:
+        raise HTTPException(
+            status_code=400,
+            detail="admins cannot remove their own admin privileges."
+        )
 
-# --- Управление Способами Оплаты ---
+    user_to_update = crud.crud_user.get_user_by_id(db, user_id=user_id)
+    if not user_to_update:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    return crud.crud_user.update_user_admin_status(
+            db, db_user=user_to_update, is_admin=is_admin
+)
 
 @router.get("/payment-methods", response_model=List[schemas.PaymentMethod])
 def read_all_payment_methods(
