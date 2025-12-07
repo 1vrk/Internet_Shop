@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>PokéShop - Панель администратора</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo">PokéShop</a>
+            <nav>  </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <h1>Панель администратора</h1>
+
+        <div class="admin-nav">
+            <button class="tab-btn active" data-tab="users">Пользователи</button>
+            <button class="tab-btn" data-tab="orders">Заказы</button>
+            <button class="tab-btn" data-tab="categories">Категории</button>
+            <button class="tab-btn" data-tab="products">Товары</button>
+            <button class="tab-btn" data-tab="reviews">Отзывы</button>
+        </div>
+        
+        <div id="admin-panel">
+        <section id="tab-users" class="tab-content active">
+                <h2>Управление пользователями</h2>
+                <div id="users-container"> </div>
+            </section>
+            
+        
+        <section id="tab-orders" class="tab-content">
+                <h2>Управление заказами</h2>
+                <div class="admin-filters">
+                    <label for="order-status-filter">Показать заказы:</label>
+                    <select id="order-status-filter">
+                        <option value="active" selected>Активные</option>
+                        <option value="completed">Завершенные</option>
+                        <option value="all">Все</option>
+                    </select>
+                </div>
+                <div id="admin-orders-container"></div>
+            </section>
+
+        <section id="tab-categories" class="tab-content">
+                <h2>Управление категориями</h2>
+                <div id="admin-categories-container"></div>
+                
+                <form id="category-form" class="admin-form">
+                    <h3 id="category-form-title">Добавить новую категорию</h3>
+                    <input type="hidden" name="category_id">
+                    <input type="text" name="name" placeholder="Название категории" required>
+                    <textarea name="description" placeholder="Описание"></textarea>
+                    <button type="submit">Сохранить</button>
+                    <button type="button" id="cancel-category-edit" style="display:none;">Отмена</button>
+                </form>
+            </section>
+
+        <section id="tab-products" class="tab-content">
+                <h2>Управление товарами</h2>
+                <div id="admin-products-container">
+                    
+                </div>
+                
+                <form id="product-form" class="admin-form">
+                    <h3 id="product-form-title">Добавить новый товар</h3>
+                    <input type="hidden" name="product_id">
+                    <input type="text" name="name" placeholder="Название товара" required>
+                    <textarea name="description" placeholder="Описание" rows="4"></textarea>
+                    <input type="number" name="price" placeholder="Цена" step="0.01" required>
+                    <input type="number" name="stock_quantity" placeholder="Количество на складе" required>
+                    <input type="text" name="image_url" placeholder="URL изображения">
+                    <select name="category_id" required>
+                        <option>Загрузка категорий...</option>
+                    </select>
+                    <div class="form-buttons">
+                        <button type="submit">Сохранить</button>
+                        <button type="button" id="cancel-product-edit" style="display:none;">Отмена</button>
+                    </div>
+                </form>
+            </section>
+
+        <section id="tab-reviews" class="tab-content">
+                <h2>Модерация отзывов</h2>
+                <div id="admin-reviews-container">
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer> </footer>
+    <script src="js/app.js"></script>
+</body>
+</html>

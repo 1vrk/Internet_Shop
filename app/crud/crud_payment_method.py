@@ -27,3 +27,6 @@ def update_payment_method(
 def delete_payment_method(db: Session, db_method: models.PaymentMethod):
     db.delete(db_method)
     db.commit()
+
+def get_active_payment_methods(db: Session) -> List[models.PaymentMethod]:
+    return db.query(models.PaymentMethod).filter(models.PaymentMethod.is_active == True).all()

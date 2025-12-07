@@ -2,6 +2,7 @@ from sqlalchemy.orm import Session
 from app import models, schemas
 from app.crud import crud_cart, crud_product
 from fastapi import HTTPException
+from sqlalchemy.orm import joinedload
 
 def get_orders_by_user(db: Session, user_id: int):
     return db.query(models.Order).filter(models.Order.user_id == user_id).all()
@@ -51,11 +52,29 @@ def get_order_by_id(db: Session, order_id: int):
 def get_all_orders(db: Session, skip: int = 0, limit: int = 100):
     return db.query(models.Order).offset(skip).limit(limit).all()
 
-def update_order_status(db: Session, order: models.Order, new_status: str):
+def update_order_status(db: Session, order: models.Order, new_status: str) -> models.Order:
     valid_statuses = ['pending', 'processing', 'shipped', 'delivered', 'cancelled']
     if new_status not in valid_statuses:
         raise HTTPException(status_code=400, detail="Invalid status value")
+
+    if order.status in ['cancelled', 'delivered']:
+        raise HTTPException(
+            status_code=400,
+            detail=f"нельзя изменять статус, если заказ доставлен или отменен '{order.status}'"
+        )
+
+    if new_status == 'cancelled' and order.status != 'cancelled':
+        order_with_items = db.query(models.Order).options(
+            joinedload(models.Order.items).joinedload(models.OrderItem.product)
+        ).filter(models.Order.id == order.id).one()
+
+        for item in order_with_items.items:
+            if item.product: 
+                item.product.stock_quantity += item.quantity
+                db.add(item.product)
+    
     order.status = new_status
+    db.add(order)
     db.commit()
     db.refresh(order)
     return order
@@ -64,6 +83,6 @@ def has_user_purchased_product(db: Session, user_id: int, product_id: int) -> bo
     order_item = db.query(models.OrderItem).join(models.Order).filter(
         models.Order.user_id == user_id,
         models.OrderItem.product_id == product_id,
-        models.Order.status == 'pending'
+        models.Order.status == 'delivered'
     ).first() 
     return order_item is not None

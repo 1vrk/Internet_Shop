@@ -47,7 +47,7 @@ def toggle_user_admin_status(
     if current_admin.id == user_id:
         raise HTTPException(
             status_code=400,
-            detail="admins cannot remove their own admin privileges."
+            detail="вы не можете снять с самого себя права админа"
         )
 
     user_to_update = crud.crud_user.get_user_by_id(db, user_id=user_id)
@@ -106,6 +106,14 @@ def delete_review_by_admin(
 ):
     db_review = crud.crud_review.get_review_by_id(db, review_id=review_id)
     if not db_review:
-        raise HTTPException(status_code=404, detail="Review not found")
+        raise HTTPException(status_code=404, detail="отзыв не найден")
     crud.crud_review.delete_review(db, db_review=db_review)
     return
+
+
+@router.get("/reviews", response_model=List[schemas.Review])
+def read_all_reviews(
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(dependencies.get_current_admin_user)
+):
+    return crud.crud_review.get_all_reviews(db)

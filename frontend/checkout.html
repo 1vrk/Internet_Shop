@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>PokéShop - Оформление заказа</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo">PokéShop</a>
+            <nav>
+            </nav>
+        </div>
+    </header>
+    <main class="container">
+        <h1>Оформление заказа</h1>
+        <div id="checkout-page"> 
+            <div class="checkout-layout">
+                <div class="checkout-main">
+                    <section id="address-selection-container" class="profile-section">
+                        <h2>1. Адрес доставки</h2>
+                    </section>
+                    <section id="payment-selection-container" class="profile-section">
+                        <h2>2. Способ оплаты</h2>
+                    </section>
+                </div>
+                <aside class="checkout-summary profile-section">
+                    <h2>Ваш заказ</h2>
+                    <div id="order-summary-container"></div>
+                    <button id="place-order-button">Подтвердить заказ</button>
+                    <p id="checkout-error" class="error-text"></p>
+                </aside>
+            </div>
+        </div>
+    </main>
+   <footer>
+      
+    </footer>
+    <script src="js/app.js"></script>
+</body>
+</html>

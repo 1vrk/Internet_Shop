@@ -7,6 +7,14 @@ from app.db.session import get_db
 
 router = APIRouter()
 
+
+@router.get("/reviews", response_model=list[schemas.Review])
+def read_all_reviews(
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(dependencies.get_current_admin_user)
+):
+    return crud.crud_review.get_all_reviews(db)
+
 @router.put("/{review_id}", response_model=schemas.Review)
 def update_own_review(
     review_id: int,
@@ -16,9 +24,9 @@ def update_own_review(
 ):
     review = crud.crud_review.get_review_by_id(db, review_id=review_id)
     if not review:
-        raise HTTPException(status_code=404, detail="Review not found")
+        raise HTTPException(status_code=404, detail="отзыв не найден")
     if review.user_id != current_user.id:
-        raise HTTPException(status_code=403, detail="Not enough permissions")
+        raise HTTPException(status_code=403, detail="нет прав")
         
     return crud.crud_review.update_review(db, db_review=review, review_in=review_in)
 
@@ -30,9 +38,9 @@ def delete_own_review(
 ):
     review = crud.crud_review.get_review_by_id(db, review_id=review_id)
     if not review:
-        raise HTTPException(status_code=404, detail="Review not found")
+        raise HTTPException(status_code=404, detail="отзыв не найден")
     if review.user_id != current_user.id:
-        raise HTTPException(status_code=403, detail="Not enough permissions")
+        raise HTTPException(status_code=403, detail="нет прав")
 
     crud.crud_review.delete_review(db, db_review=review)
     return

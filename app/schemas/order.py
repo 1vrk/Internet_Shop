@@ -17,6 +17,7 @@ class OrderCreate(BaseModel):
 
 class Order(BaseModel):
     id: int
+    user_id: int
     total_amount: float
     status: str
     order_date: datetime

@@ -14,6 +14,7 @@ class ReviewCreate(ReviewBase):
 class Review(ReviewBase):
     id: int
     user: User 
+    product_id: int
     created_at: datetime
 
     class Config:

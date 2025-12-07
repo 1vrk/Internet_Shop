@@ -8,3 +8,4 @@ from .payment_method import PaymentMethod, PaymentMethodCreate
 from .order import Order, OrderCreate, OrderItem
 from .review import Review, ReviewCreate
 from .user_profile import UserProfile, UserProfileUpdate
+from .pagination import PaginatedResponse

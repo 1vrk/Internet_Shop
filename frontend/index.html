@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PokéShop - Главная</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -19,6 +23,13 @@
 
     <main class="container">
         <h1>Каталог товаров</h1>
+        <div class="search-bar">
+                <form id="search-form">
+                    <input type="search" id="search-input" placeholder="Найти Пикачу...">
+                    <button type="submit">Найти</button>
+                </form>
+        </div>
+
         <div id="products-container" class="products-grid">
             <!-- Пример карточки (мы будем создавать их динамически) -->
             <!-- <div class="product-card">
@@ -31,9 +42,7 @@
     </main>
 
     <footer>
-        <div class="container">
-            <p>&copy; 2025 PokéShop. Все права защищены.</p>
-        </div>
+       
     </footer>
 
     <script src="js/app.js"></script>

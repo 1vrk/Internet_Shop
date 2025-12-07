@@ -1,9 +1,24 @@
 from sqlalchemy.orm import Session
 from app import models, schemas
-from typing import Optional
+from typing import Optional, List
 
 def get_product(db: Session, product_id: int):
     return db.query(models.Product).filter(models.Product.id == product_id).first()
+
+
+def get_products_count(db: Session, category_id: Optional[int] = None, search: Optional[str] = None):
+    query = db.query(models.Product)
+    if category_id: 
+        query = query.filter(models.Product.category_id == category_id)
+
+    if search:
+        search_term = f"%{search}%"
+        query = query.filter(
+            (models.Product.name.ilike(search_term)) | 
+            (models.Product.description.ilike(search_term))
+        )
+    return query.count()
+
 
 def get_products(
     db: Session, 
@@ -45,3 +60,4 @@ def delete_product(db: Session, db_product: models.Product):
     db.delete(db_product)
     db.commit()
     return db_product
+
